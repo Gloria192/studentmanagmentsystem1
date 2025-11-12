@@ -13,6 +13,9 @@ public class Trimester {
     private String Name; 
     private String StartDate;
     private String EndDate;
+
+
+
        
     //Getters
     public String getName() {
