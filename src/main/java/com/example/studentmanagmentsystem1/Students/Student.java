@@ -1,20 +1,33 @@
 package com.example.studentmanagmentsystem1.Students;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Table;
+
+import java.util.List;
+
+import com.example.studentmanagmentsystem1.Courses.Course;
+import com.example.studentmanagmentsystem1.StudentRegistration.StudentRegi;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+
+import jakarta.persistence.*;
+
+
+
 
 @Entity
-@Table(name = "student")
+@Table(name = "students")
 public class Student {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) 
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(nullable = false)
     private String firstName;
+
+    @Column(nullable = false)
     private String lastName;
+
+    @Column(unique = true, nullable = false)
     private String email;
+
     private String phone;
     private String address;
     private String gender;
@@ -26,15 +39,24 @@ public class Student {
     private String guardianName;
     private String guardianPhone;
     private String guardianAddress;
-    // constructor
-    public Student() {
-    }
 
-    // constructor
-    public Student( String firstName, String lastName, String email, String phone, String address,
-                   String gender, String dob, String motherName, String fatherName, String motherPhone,
-                   String fatherPhone, String guardianName, String guardianPhone, String guardianAddress) {
-       
+  
+
+  @ManyToMany
+@JoinTable(
+        name = "student_course",
+        joinColumns = @JoinColumn(name = "student_id"),
+        inverseJoinColumns = @JoinColumn(name = "course_id")
+)
+private List<Course> courses;
+    // Default constructor
+    public Student() {}
+
+    // Full constructor
+    public Student(String firstName, String lastName, String email, String phone, 
+                  String address, String gender, String dob, String motherName, 
+                  String fatherName, String motherPhone, String fatherPhone, 
+                  String guardianName, String guardianPhone, String guardianAddress) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
@@ -51,148 +73,70 @@ public class Student {
         this.guardianAddress = guardianAddress;
     }
 
-    // Getters and Setters
+    // GETTERS & SETTERS
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-   
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public String getFirstName() {
-        return firstName;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    public String getEmail() { return email; }
+    public void setEmail(String email) { this.email = email; }
 
-    public String getLastName() {
-        return lastName;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
 
-    public String getEmail() {
-        return email;
-    }
+    public String getGender() { return gender; }
+    public void setGender(String gender) { this.gender = gender; }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
+    public String getDob() { return dob; }
+    public void setDob(String dob) { this.dob = dob; }
 
-    public String getPhone() {
-        return phone;
-    }
+    public String getMotherName() { return motherName; }
+    public void setMotherName(String motherName) { this.motherName = motherName; }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public String getFatherName() { return fatherName; }
+    public void setFatherName(String fatherName) { this.fatherName = fatherName; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getMotherPhone() { return motherPhone; }
+    public void setMotherPhone(String motherPhone) { this.motherPhone = motherPhone; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public String getFatherPhone() { return fatherPhone; }
+    public void setFatherPhone(String fatherPhone) { this.fatherPhone = fatherPhone; }
 
-    public String getGender() {
-        return gender;
-    }
+    public String getGuardianName() { return guardianName; }
+    public void setGuardianName(String guardianName) { this.guardianName = guardianName; }
 
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
+    public String getGuardianPhone() { return guardianPhone; }
+    public void setGuardianPhone(String guardianPhone) { this.guardianPhone = guardianPhone; }
 
-    public String getDob() {
-        return dob;
-    }
+    public String getGuardianAddress() { return guardianAddress; }
+    public void setGuardianAddress(String guardianAddress) { this.guardianAddress = guardianAddress; }
 
-    public void setDob(String dob) {
-        this.dob = dob;
-    }
+    // public List<StudentRegi> getRegistrations() { return registrations; }
+    // public void setRegistrations(List<StudentRegi> registrations) { this.registrations = registrations; }
 
-    public String getMotherName() {
-        return motherName;
-    }
-
-    public void setMotherName(String motherName) {
-        this.motherName = motherName;
-    }
-
-    public String getFatherName() {
-        return fatherName;
-    }
-
-    public void setFatherName(String fatherName) {
-        this.fatherName = fatherName;
-    }
-
-    public String getMotherPhone() {
-        return motherPhone;
-    }
-
-    public void setMotherPhone(String motherPhone) {
-        this.motherPhone = motherPhone;
-    }
-
-    public String getFatherPhone() {
-        return fatherPhone;
-    }
-
-    public void setFatherPhone(String fatherPhone) {
-        this.fatherPhone = fatherPhone;
-    }
-
-    public String getGuardianName() {
-        return guardianName;
-    }
-
-    public void setGuardianName(String guardianName) {
-        this.guardianName = guardianName;
-    }
-
-    public String getGuardianPhone() {
-        return guardianPhone;
-    }
-
-    public void setGuardianPhone(String guardianPhone) {
-        this.guardianPhone = guardianPhone;
-    }
-
-    public String getGuardianAddress() {
-        return guardianAddress;
-    }
-
-    public void setGuardianAddress(String guardianAddress) {
-        this.guardianAddress = guardianAddress;
-    }
-
-
-
-    // @ManyToMany(mappedBy = "students")
-    // private Set<Course> course= new HashSet<>();
-    // public Set<Course> getCourses() {
-    //     return course;
-    // }   
-
-    // @Override
-    // public String toString() {
-    //     return "Student{" +
-    //             "id=" + id +
-    //             ", firstName='" + firstName + '\'' +
-    //             ", lastName='" + lastName + '\'' +
-    //             ", email='" + email + '\'' +
-    //             ", phone='" + phone + '\'' +
-    //             ", address='" + address + '\'' +
-    //             ", gender='" + gender + '\'' +
-    //             ", dob='" + dob + '\'' +
-    //             ", motherName='" + motherName + '\'' +
-    //             ", fatherName='" + fatherName + '\'' +
-    //             ", motherPhone='" + motherPhone + '\'' +
-    //             ", fatherPhone='" + fatherPhone + '\'' +
-    //             ", guardianName='" + guardianName + '\'' +
-    //             ", guardianPhone='" + guardianPhone + '\'' +
-    //             ", guardianAddress='" + guardianAddress + '\'' +
-    //             '}';
+    // Helper methods
+    // public void addRegistration(StudentRegi registration) {
+    //     registrations.add(registration);
+    //     registration.setStudent(this);
     // }
-}
+
+    // public void removeRegistration(StudentRegi registration) {
+    //     registrations.remove(registration);
+    //     registration.setStudent(null);
+    // }
+    public List<Course> getCourses() {
+        return courses;
+        
+    }
+    public void setCourses(List<Course> courses) {
+        this.courses = courses;
+    }
+}   
