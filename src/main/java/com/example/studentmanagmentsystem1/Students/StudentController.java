@@ -34,7 +34,7 @@ public class StudentController {
 
     @PostMapping(value="/create", consumes = "application/json", produces = "application/json")
     public Student createStudent(@RequestBody StudentDto dto) {
-        return studentService.createStudent(dto);
+      return studentService.createStudent(dto, null);
     }
     @PutMapping("/{id}")   
     public Student updateStudent(@PathVariable Long id, @RequestBody StudentDto dto) {

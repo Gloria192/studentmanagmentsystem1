@@ -13,7 +13,7 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 
 @Entity
-@Table(name = "student_registration")
+@Table(name = "student_registrations")
 public class StudentRegi {
 
     @Id
@@ -33,7 +33,7 @@ public class StudentRegi {
 
     @ManyToOne
     @JoinColumn(name = "course_id")
-    private Course course;
+    private Course courses;
 
 // @ManyToOne
 // @JoinColumn(name = "course_id")
@@ -96,10 +96,10 @@ public StudentRegi() {}
         }
 
     public Course getCourse() { 
-        return course;
+        return courses;
     }
-    public void setCourse(Course course) {
-         this.course = course; 
+    public void setCourse(Course courses) {
+         this.courses = courses; 
         }
     //     public String getCoursecode() {
     //         return coursecode;

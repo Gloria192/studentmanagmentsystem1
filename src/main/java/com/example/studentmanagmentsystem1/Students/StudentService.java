@@ -3,14 +3,21 @@ package com.example.studentmanagmentsystem1.Students;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+
+import com.example.studentmanagmentsystem1.Courses.Course;
+import com.example.studentmanagmentsystem1.Courses.CourseRepository;
 
 @Service
 public class StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+
+    @Autowired
+    private CourseRepository courseRepository;
 
     // Get all students
     public List<Student> getAllStudents() {
@@ -22,13 +29,22 @@ public class StudentService {
         return studentRepository.findById(id);
     }
 
-    // Create a new student
-    public Student createStudent(StudentDto dto) {
+    /**
+     * Create student & assign a course
+     * @param dto - incoming student data
+     * @param courseId - ID of the course to assign
+     */
+    public Student createStudent(StudentDto dto, Long courseId) {
 
         if (dto == null) {
             throw new RuntimeException("Student data cannot be null");
         }
 
+        // Find the course
+        Course course = courseRepository.findById(courseId)
+                .orElseThrow(() -> new RuntimeException("Course not found with id " + courseId));
+
+        // Create student
         Student student = new Student(
                 dto.getFirstName(),
                 dto.getLastName(),
@@ -46,10 +62,16 @@ public class StudentService {
                 dto.getGuardianAddress()
         );
 
+        // Assign course
+        List<Course> courseList = new ArrayList<>();
+
+        courseList.add(course);
+        student.setCourses(courseList);
+
         return studentRepository.save(student);
     }
 
-    // Update existing student
+    // Update student
     public Student updateStudent(Long id, StudentDto dto) {
 
         if (dto == null) {
@@ -78,7 +100,7 @@ public class StudentService {
                 .orElseThrow(() -> new RuntimeException("Student not found with id " + id));
     }
 
-    // Delete student by ID
+    // Delete student
     public void deleteStudent(Long id) {
         if (!studentRepository.existsById(id)) {
             throw new RuntimeException("Cannot delete. Student not found with id " + id);
